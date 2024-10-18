@@ -27,9 +27,9 @@ export default function RotaryKnob({ onChange, min=0, max=127, trackId, knobId }
 
         const handleMessage = (message: ParsedMessage) => {
             if (message.dataType === knobId && message.track === trackId) {
-                console.log(message.dataType + " " + message.value);
-                tracks[trackId][knobId] = message.value;
-                updateTrack(trackId, tracks[trackId]);
+                console.log(message.dataType + " " + message.value)
+                tracks[trackId][knobId] = message.value
+                updateTrack(trackId, tracks[trackId])
             }
         };
 
@@ -38,7 +38,7 @@ export default function RotaryKnob({ onChange, min=0, max=127, trackId, knobId }
         return () => {
             lc.off('message', handleMessage);
         };
-    }, [lc, tracks]);
+    }, [lc, tracks])
 
     const handleMouseDown = (e: React.MouseEvent) => {
         setIsDragging(true)
@@ -55,6 +55,8 @@ export default function RotaryKnob({ onChange, min=0, max=127, trackId, knobId }
         const deltaY = startY - e.clientY
         const deltaValue = (deltaY / 100) * (max - min)
         const newValue = Math.min(max, Math.max(min, startValue + deltaValue))
+        tracks[trackId][knobId] = Math.round(newValue)
+        updateTrack(trackId, tracks[trackId])
         onChange(Math.round(newValue))
     }
 
@@ -67,12 +69,12 @@ export default function RotaryKnob({ onChange, min=0, max=127, trackId, knobId }
         }
     }, [isDragging, startY, startValue])
 
-    const rotation = tracks[trackId] ? ((tracks[trackId][knobId] - min) / (max - min)) * 290 - 145 : 0;// -145 to 145 degrees
+    const rotation = tracks[trackId] ? ((tracks[trackId][knobId] - min) / (max - min)) * 290 - 145 : 0 // -145 to 145 degrees
 
     return (
         tracks[trackId] &&
                 <div className="-rotate-90 md:rotate-0 flex flex-col items-center justify-center h-16 w-16 md:h-24 md:w-24">
-                    <div className={"flex w-12 h-12 md:h-16 md:w-16 bg-transparent rounded-full border-4 border-slate-700 justify-center items-center"}>
+                    <div className={"flex w-12 h-12 md:h-16 md:w-16 bg-transparent rounded-full border-4 border-zinc-700 justify-center items-center"}>
                         <div
                             ref={knobRef}
                         className="w-8 h-8 md:w-12 md:h-12 rounded-full bg-black shadow-inner cursor-pointer"
@@ -89,29 +91,3 @@ export default function RotaryKnob({ onChange, min=0, max=127, trackId, knobId }
                 </div>
     )
 }
-
-// export default function RotaryKnobs({trackId, rowId}: RotaryKnobsProps) {
-//     const [values, setValues] = useState(Array(16).fill(50))
-//
-//
-//     const handleKnobChange = (index: number, newValue: number) => {
-//         const newValues = [...values]
-//         newValues[index] = newValue
-//         setValues(newValues)
-//     }
-//
-//     return (
-//         <div className="p-8 bg-gray-100 rounded-lg">
-//             <h2 className="text-2xl font-bold mb-6 text-center">Rotary Knobs</h2>
-//             <div className="grid grid-cols-4 md:grid-cols-8 gap-8">
-//                 {values.map((value, index) => (
-//                     <Knob
-//                         key={index}
-//                         value={value}
-//                         onChange={(newValue) => handleKnobChange(index, newValue)}
-//                     />
-//                 ))}
-//             </div>
-//         </div>
-//     )
-// }

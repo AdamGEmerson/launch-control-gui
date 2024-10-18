@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import WebMIDILaunchControl from "../launch-control/WebMIDILaunchControl";
 import {Color, ParsedMessage} from 'LaunchControl';
 import {useMidi} from "./MidiConext";
 import {useLaunchControlStore} from "../stores/launchControlStore";
@@ -7,6 +6,18 @@ import {useLaunchControlStore} from "../stores/launchControlStore";
 
 interface PadButtonProps {
     buttonID: number;
+}
+
+const padStyles = {
+    off: 'bg-gradient-to-br from-slate-300 to-slate-400 shadow-lg',
+    green: 'bg-gradient-to-br from-green-300 to-teal-600 from-10% to-90% ring-green-300 shadow-none',
+    amber: 'bg-gradient-to-br from-amber-300 to-orange-600 from-10% to-90% ring-amber-300 shadow-none'
+};
+
+const glowStyles = {
+    off: '',
+    green: 'bg-gradient-to-br from-green-600 to-teal-600 rounded-lg blur opacity-80',
+    amber: 'bg-gradient-to-br to-orange-600 from-amber-600 rounded-lg blur opacity-80'
 }
 
 const PadButton = ({buttonID}: PadButtonProps) => {
@@ -30,18 +41,6 @@ const PadButton = ({buttonID}: PadButtonProps) => {
         }
         tracks[buttonID].color = color;
         updateTrack(buttonID, tracks[buttonID]);
-    }
-
-    const padStyles = {
-        off: 'bg-gradient-to-br from-slate-300 to-slate-400 shadow-lg',
-        green: 'bg-gradient-to-br from-green-300 to-teal-600 from-10% to-90% ring-green-300 shadow-none',
-        amber: 'bg-gradient-to-br from-amber-300 to-orange-600 from-10% to-90% ring-amber-300 shadow-none'
-    };
-
-    const glowStyles = {
-        off: '',
-        green: 'bg-gradient-to-br from-green-600 to-teal-600 rounded-lg blur opacity-80',
-        amber: 'bg-gradient-to-br to-orange-600 from-amber-600 rounded-lg blur opacity-80'
     }
 
     useEffect(() => {
@@ -68,17 +67,16 @@ const PadButton = ({buttonID}: PadButtonProps) => {
     }, [tracks]);
 
     return (
-        <div className={'mx-auto relative'}>
+        <button className={'mx-auto relative'} onClick={() => handleClick()}>
             <div
                 className={`absolute -inset-1 ${glowStyles[tracks[buttonID].color as keyof typeof glowStyles]}`}></div>
             <div
                 className={"h-16 w-16 md:h-24 md:w-24 ring-2 ring-neutral-200 rounded flex items-center justify-center " + style}
-                onClick={() => handleClick()}
             >
-                <span className={'font-bold text-xl text-slate-50 z-20'}>{buttonID + 1}</span>
+                <span className={'font-bold text-xl text-zinc-100 z-20 opacity-50'}>{buttonID + 1}</span>
             </div>
-        </div>
-            );
-            };
+        </button>
+    );
+};
 
-            export default PadButton;
+export default PadButton;

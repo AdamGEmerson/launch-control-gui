@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import {Color, ParsedMessage} from "LaunchControl";
+import { Color } from "LaunchControl";
 
 export type Track = {
     color: Color
@@ -22,7 +22,6 @@ const tracks: Track[] = Array.from({ length: 8 }, () => ({
     "knob2": 0
 }))
 
-// Create your store, which includes both state and (optionally) actions
 export const useLaunchControlStore = create<State & Action>((set) => ({
     tracks: tracks,
     updateTrack: (trackIndex, track) => set((state) => ({

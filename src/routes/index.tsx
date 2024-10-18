@@ -1,9 +1,5 @@
 import * as React from 'react'
 import { createFileRoute } from '@tanstack/react-router'
-import MidiButtonDetector from "../components/PadButton";
-import PadButton from "../components/PadButton";
-import RotaryKnob from "../components/RotaryKnob";
-import {Github, GithubIcon} from "lucide-react";
 import NovationBoard from "../components/NovationBoard";
 
 export const Route = createFileRoute('/')({

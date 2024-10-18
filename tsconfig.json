@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "esModuleInterop": true,
+    "jsx": "react-jsx",
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "Bundler"
+  },
+    "include": [
+      "src",
+      "src/types/launch-control.d.ts",
+      "src/types/midi-device.d.ts"
+    ]
+}

@@ -1,5 +1,4 @@
 declare module "LaunchControl" {
-    import { EventEmitter } from "events";
     import MIDIDevice from "MIDIDevice";
 
     export type TrackSelector = "all" | "even" | "odd" | string;
@@ -15,7 +14,7 @@ declare module "LaunchControl" {
         direction?: "up" | "down" | "left" | "right";
     }
 
-    interface LaunchControlMessage extends ParsedMessage {
+    export interface LaunchControlMessage extends ParsedMessage {
         type: "message";
         deviceName: string;
     }
@@ -27,6 +26,7 @@ declare module "LaunchControl" {
         led(track: TrackSelector | number, color: Color, channel?: number): void;
         on(event: "message", listener: (msg: LaunchControlMessage) => void): ExtendedLaunchControl<T>;
         on(event: string, listener: Function): ExtendedLaunchControl<T>;
+        off(event: "message", listener: (msg: LaunchControlMessage) => void): ExtendedLaunchControl<T>;
     };
 
     export function _extends<T extends typeof MIDIDevice>(MIDIDevice: T): {

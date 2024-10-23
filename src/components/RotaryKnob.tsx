@@ -4,7 +4,7 @@ import {Track, useLaunchControlStore} from "../stores/launchControlStore";
 import {ParsedMessage} from "LaunchControl";
 
 interface RotaryKnobProps {
-    onChange: (newValue: number) => void
+    onChange: (knobId: string, value: number) => void
     min?: number
     max?: number
     trackId: number
@@ -15,21 +15,19 @@ export default function RotaryKnob({ onChange, min=0, max=127, trackId, knobId }
 
     const lc = useMidi();
     const tracks = useLaunchControlStore(state => state.tracks);
-    const updateTrack = useLaunchControlStore(state => state.updateTrack);
 
     const knobRef = useRef<HTMLDivElement>(null)
     const [isDragging, setIsDragging] = useState(false)
     const [startY, setStartY] = useState(0)
     const [startValue, setStartValue] = useState(0)
 
+    // Listen for knob changes from the controller and pass to onChange()
     useEffect(() => {
         if (!lc) return;
 
         const handleMessage = (message: ParsedMessage) => {
             if (message.dataType === knobId && message.track === trackId) {
-                console.log(message.dataType + " " + message.value)
-                tracks[trackId][knobId] = message.value
-                updateTrack(trackId, tracks[trackId])
+                onChange(knobId, message.value)
             }
         };
 
@@ -50,16 +48,16 @@ export default function RotaryKnob({ onChange, min=0, max=127, trackId, knobId }
         setIsDragging(false)
     }
 
+    // Handles the knob rotation in UI and forwards the value to onChange()
     const handleMouseMove = (e: MouseEvent) => {
         if (!isDragging) return
         const deltaY = startY - e.clientY
         const deltaValue = (deltaY / 100) * (max - min)
         const newValue = Math.min(max, Math.max(min, startValue + deltaValue))
-        tracks[trackId][knobId] = Math.round(newValue)
-        updateTrack(trackId, tracks[trackId])
-        onChange(Math.round(newValue))
+        onChange(knobId, Math.round(newValue))
     }
 
+    // Knob rotation event listeners
     useEffect(() => {
         document.addEventListener('mousemove', handleMouseMove)
         document.addEventListener('mouseup', handleMouseUp)
@@ -77,7 +75,7 @@ export default function RotaryKnob({ onChange, min=0, max=127, trackId, knobId }
                     <div className={"flex w-12 h-12 md:h-16 md:w-16 bg-transparent rounded-full border-4 border-zinc-700 justify-center items-center"}>
                         <div
                             ref={knobRef}
-                        className="w-8 h-8 md:w-12 md:h-12 rounded-full bg-black shadow-inner cursor-pointer"
+                            className="w-8 h-8 md:w-12 md:h-12 rounded-full bg-black shadow-inner cursor-pointer"
                             onMouseDown={handleMouseDown}
                             style={{
                                 transform: `rotate(${rotation}deg)`,

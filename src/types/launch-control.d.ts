@@ -50,8 +50,8 @@ declare module "NodeMIDILaunchControl" {
     export default NodeMIDILaunchControl;
 }
 
-declare module "WebMIDILaunchControl" {
-    import WebMIDIDevice from "WebMIDIDevice";
+declare module "src/launch-control/WebMIDILaunchControl" {
+    import WebMIDIDevice from "src/launch-control/WebMidiDevice";
     import LaunchControl from "LaunchControl";
 
     const WebMIDILaunchControl: ReturnType<typeof LaunchControl.extends<typeof WebMIDIDevice>>;

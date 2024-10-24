@@ -1,4 +1,4 @@
-declare module "WebMIDIDevice" {
+declare module "src/types/WebMidiDevice" {
     import MIDIDevice from "MIDIDevice";
 
     export default class WebMIDIDevice extends MIDIDevice {

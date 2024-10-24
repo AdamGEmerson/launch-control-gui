@@ -10,6 +10,6 @@
     "include": [
       "src",
       "src/types/launch-control.d.ts",
-      "src/types/midi-device.d.ts"
+      "src/types/midi-device.d.ts",
     ]
 }

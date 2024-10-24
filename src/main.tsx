@@ -2,7 +2,6 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { RouterProvider, createRouter } from '@tanstack/react-router'
 import { routeTree } from './routeTree.gen'
-import {MidiProvider} from "./components/MidiConext";
 
 // Set up a Router instance
 const router = createRouter({

@@ -1,5 +1,7 @@
-import WebMIDIDevice from "WebMIDIDevice";
-import { ExtendedLaunchControl } from "LaunchControl";
+declare module "src/types/WebMidiLaunchControl" {
+    import WebMIDIDevice from "src/types/WebMidiDevice";
+    import {ExtendedLaunchControl} from "LaunchControl";
 
-declare const WebMIDILaunchControl: ExtendedLaunchControl<WebMIDIDevice>;
-export default WebMIDILaunchControl;
+    const WebMIDILaunchControl: ExtendedLaunchControl<WebMIDIDevice>;
+    export default WebMIDILaunchControl;
+}
